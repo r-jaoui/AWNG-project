@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>{% block titre %}Task Manager{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %} ">
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <h2 class="regular">Ruben JAOUI</h2>
+    <div id="content" class="regular">
+        {% block contenu %}{% endblock %}
+    </div>
+    <h5>Créé le 21/05/2020</h5>
+</body>
+</html>
