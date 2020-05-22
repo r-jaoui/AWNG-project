@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -43,10 +44,10 @@ class Commentaire(models.Model):
     texte = models.TextField()
     date = models.DateTimeField(default=timezone.now)
     tache = models.ForeignKey('Tache', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = "tache"
+        verbose_name = "commentaire"
 
     def __str__(self):
         return self.texte[:40]+"..."
-
