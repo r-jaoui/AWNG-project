@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block titre %}Tache {{ tache.titre }}{% endblock %}
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/tache.css' %} ">{% endblock %}
+
+{% block contenu %}
+    <h3>{{ tache.titre }}</h3>
+    <table class="content">
+        <tr>
+            <td colspan="2">
+                <h5>{{ tache.description|linebreaks }}</h5>
+            </td>
+            <td>
+                <div class="stat">
+                    <h4 class="size-stat" style="background-color:{{ tache.status.couleur }};" >{{ tache.status }}</h4>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Commence le {{ tache.start }}</p>
+            </td>
+            <td>
+                <p>Finit le {{ tache.end }}</p>
+            </td>
+            <td>
+                <p>Priorité : {{ tache.priority }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <h5>Projet : {{ tache.projet }}</h5>
+            </td>
+            <td>
+                <p>Assigné à : {{ tache.assigned }}</p>
+            </td>
+        </tr>
+    </table>
+    <h4 id="subtitle">Commentaires</h4>
+    <ul id="comments">
+        {% for comm in commentaires %}
+            <li>
+                <table>
+                    <tr>
+                        <td>
+                            <p class="comm-header">par {{ comm.user }} le {{ comm.date }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="comm">{{ comm.texte }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+        {% endfor %}
+    </ul>
+    <a id="ret" href="{% url "Projet" tache.projet.id %}"><p>Retour</p></a>
+{% endblock %}

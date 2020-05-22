@@ -12,32 +12,34 @@
     <ul id="content">
         {% for tache in taches %}
             <li>
-                <table>
-                    <tr>
-                       <td colspan="4" >
-                           <h2>{{ tache.titre }}</h2>
-                       </td>
-                       <td rowspan="2" >
-                           <div class="stat">
-                                <h4 class="size-stat" style="background-color:{{ tache.status.couleur }};" >{{ tache.status.nom }}</h4>
-                           </div>
-                       </td>
-                    </tr>
-                    <tr>
-                       <td class="mini">
-                            <p>Priorité : {{ tache.priority }}</p>
-                       </td>
-                       <td class="mini">
-                            <p>Assigné à : {{ tache.assigned }}</p>
-                       </td>
-                       <td class="mini">
-                            <p>Commencée le : {{ tache.start }}</p>
-                       </td>
-                       <td class="mini">
-                            <p>Terminée le : {{ tache.end }}</p>
-                       </td>
-                    </tr>
-                </table>
+                <a href="{% url "Tache" tache.id %}">
+                    <table>
+                        <tr>
+                           <td colspan="4" >
+                               <h2>{{ tache.titre }}</h2>
+                           </td>
+                           <td rowspan="2" >
+                               <div class="stat">
+                                    <h4 class="size-stat" style="background-color:{{ tache.status.couleur }};" >{{ tache.status.nom }}</h4>
+                               </div>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="mini">
+                                <p>Priorité : {{ tache.priority }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Assigné à : {{ tache.assigned }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Commencée le : {{ tache.start }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Terminée le : {{ tache.end }}</p>
+                           </td>
+                        </tr>
+                    </table>
+                </a>
             </li>
         {% endfor %}
     </ul>

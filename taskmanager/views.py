@@ -87,3 +87,21 @@ def projet(request, id):
     else:
         return redirect(connect)
     return render(request, 'taskmanager/projet.html', locals())
+
+def tache(request, id):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    tache = None
+    commentaires = None
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.view_commentaire') and request.user.has_perm('taskmanager.view_tache'):
+            tache = Tache.objects.get(id=id)
+            commentaires = Commentaire.objects.filter(tache = tache).order_by('date')
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+    return render(request, 'taskmanager/tache.html', locals())

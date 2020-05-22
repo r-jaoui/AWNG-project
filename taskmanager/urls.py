@@ -6,5 +6,6 @@ urlpatterns = [
     path('disconnect/', disconnect, name = "Deconnexion"),
     path('projects/', projets, name = "Projets"),
     path('projet/<int:id>', projet, name = "Projet"),
+    path('tache/<int:id>', tache, name = "Tache"),
     path('denied/', denied, name = "Refusé"),
 ]
