@@ -24,3 +24,9 @@
 #connect:hover {
     background-color: #d0d8e7;
 }
+
+#error {
+    margin: 20px;
+    font-size: 130%;
+    text-align: center;
+}

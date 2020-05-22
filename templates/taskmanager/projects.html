@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block titre %}Projets{% endblock %}
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/projets.css' %} ">{% endblock %}
+
+{% block contenu %}
+    <ul>
+    {% for projet in projets %}
+        <a class = "links" href="{% url "Projet" projet.0.id %}">
+            <li>
+                <table class="projet">
+                    <tr>
+                        <td>
+                            <h3>{{ projet.0.nom }}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>{{ projet.1 }} tache{{ projet.1|pluralize }} listée{{ projet.1|pluralize }} dans ce projet</h5>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+        </a>
+    {% endfor %}
+    </ul>
+{% endblock %}

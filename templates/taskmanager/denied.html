@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block titre %}Refusé{% endblock %}
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/denied.css' %} ">{% endblock %}
+
+{% block contenu %}
+    <h3>Vos permissions ne vous permettent pas d'acceder à cette page...</h3>
+{% endblock %}
