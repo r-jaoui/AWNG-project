@@ -3,16 +3,35 @@
 <head>
     <meta charset="UTF-8">
     {% load static %}
+    <link rel="icon" href="{% static 'images/icon.ico' %}" type="image/x-icon" />
     <title>{% block titre %}Task Manager{% endblock %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/base.css' %} ">
+    {% block css %}{% endblock %}
 </head>
 <body>
-    <h1>Task Manager</h1>
-    <h2 class="regular">Ruben JAOUI</h2>
+    <div class="center per-90">
+        <table id="full">
+            <tr>
+                <td id = "icon-cont">
+                    <img src="{% static "images/icon.png" %}" alt="logo" id="icon"/>
+                </td>
+                <td>
+                    <h1 id = "title">Task Manager</h1>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="center bloc-85">
+        {% if connected %}
+            <h4 class="regular"><span>{{ name }} ({{ username }})</span> connecté ! <a href="../disconnect"><button id="disconnect">Se déconnecter</button></a></h4>
+        {% else %}
+            <h4 class="regular">Non connecté...</h4>
+        {% endif %}
+    </div>
     <div id="content" class="regular">
         {% block contenu %}{% endblock %}
     </div>
-    <h5>Créé le 21/05/2020</h5>
+    <h5>Créé le 22/05/2020</h5>
 </body>
 </html>

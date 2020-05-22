@@ -1,0 +1,26 @@
+.major {
+    width: 20%;
+    margin: 70px auto;
+}
+
+#connect-form {
+    margin: auto;
+    text-align: right;
+}
+
+#connect-form p {
+    font-size: 130%;
+}
+
+#connect {
+    font-size: 140%;
+    background-color: transparent;
+    border: solid 3px #396d79;
+    padding: 3px 15px;
+    margin-left: 40px;
+    margin-right: 20px;
+}
+
+#connect:hover {
+    background-color: #d0d8e7;
+}

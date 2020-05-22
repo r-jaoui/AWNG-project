@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block titre %}Connect{% endblock %}
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/connect.css' %} ">{% endblock %}
+
+{% block contenu %}
+    {% if error %}
+        <p>Nom d'utilisateur ou mot de passe non reconnu</p>
+    {% endif %}
+    <div class="major">
+        <form action="" method="post" id = "connect-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input id="connect" type = "submit" value = "Se connecter">
+        </form>
+    </div>
+{% endblock %}
