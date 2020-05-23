@@ -7,14 +7,14 @@
 {% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/delete.css' %} ">{% endblock %}
 
 {% block contenu %}
-    <h4 id="delete">Vous êtes sur le point de supprimmer la tache {{ tache.titre }}</h4>
+    <h4 id="delete">Vous êtes sur le point de supprimmer la tache {{ task.titre }}</h4>
     <h4 id="sure">Etes-vous sur ?</h4>
     <table id="results">
         <tr>
-            <td><a href="{% url "Suppression Definitive Tache" tache.id %}"><button class="res">Oui</button></a></td>
+            <td><a href="{% url "Suppression Definitive Tache" task.id %}"><button class="res">Oui</button></a></td>
         </tr>
         <tr>
-            <td><a href="{% url "Projet" tache.projet.id %}"><button class="res">Non</button></a></td>
+            <td><a href="{% url "Projet" task.projet.id %}"><button class="res">Non</button></a></td>
         </tr>
     </table>
 {% endblock %}
