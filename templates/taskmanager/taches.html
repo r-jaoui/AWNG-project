@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block titre %}Taches{% endblock %}
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/taches.css' %} ">{% endblock %}
+
+{% block contenu %}
+    <h3>
+        Taches
+    </h3>
+    <ul id="content">
+        {% for tache in taches %}
+            <li>
+                <a href="{% url "Tache" tache.id %}">
+                    <table>
+                        <tr>
+                           <td colspan="5" >
+                               <h2>
+                                    {% if delete_tache %}
+                                        <a href="{% url "Suppression Tache" tache.id %}"><img src="{% static "images/del.png" %}" alt="del" width = "18px"/></a>
+                                    {% endif %}
+                                    {% if modify_tache %}
+                                        <a href="{% url "Modification Tache" tache.id %}"><img src="{% static "images/mod.png" %}" alt="mod" width = "18px"/></a>
+                                    {% endif %}
+                                   {{ tache.titre }}
+                               </h2>
+                           </td>
+                           <td rowspan="2" >
+                               <div class="stat">
+                                    <h4 class="size-stat" style="background-color:{{ tache.status.couleur }};" >{{ tache.status.nom }}</h4>
+                               </div>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="mini">
+                                <p>Priorité : {{ tache.priority }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Assigné à : {{ tache.assigned }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Commencée le : {{ tache.start }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Terminée le : {{ tache.end }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Projet : {{ tache.projet.nom }}</p>
+                           </td>
+                        </tr>
+                    </table>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

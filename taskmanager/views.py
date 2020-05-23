@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
+from django.contrib.auth.models import Permission
 from .forms import *
 from .models import *
 
@@ -117,6 +118,44 @@ def tache(request, id):
     else:
         return redirect(connect)
     return render(request, 'taskmanager/tache.html', locals())
+
+
+def taches(request):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.view_tache'):
+            modify_tache = request.user.has_perm('taskmanager.change_tache')
+            delete_tache = request.user.has_perm('taskmanager.delete_tache')
+            taches = Tache.objects.all()
+            return render(request, "taskmanager/taches.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+    return render(request, 'taskmanager/tache.html', locals())
+
+def utilisateur(request):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+
+        groups = request.user.groups.all()
+        permissions = Permission.objects.filter(user=request.user)
+        taches = Tache.objects.filter(assigned=request.user)
+        projects = []
+        for tache in taches:
+            if tache.projet not in projects:
+                projects.append(tache.projet)
+        return render(request, "taskmanager/user.html", locals())
+    else:
+        return redirect(connect)
 
 def delete_projet(request, id):
     connected = request.user.is_authenticated

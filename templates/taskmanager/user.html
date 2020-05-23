@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block titre %}Utilisateur{% endblock %}
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/user.css' %} ">{% endblock %}
+
+{% block contenu %}
+    <h3>
+        {{ name }} ({{ username }})
+    </h3>
+    <h4 class="tag">
+        PROJETS
+    </h4>
+    <ul>
+    {% for projet in projects %}
+        <a class = "links" href="{% url "Projet" projet.id %}">
+            <li class="cell">
+                <h3>
+                    {{ projet.nom }}
+                </h3>
+            </li>
+        </a>
+    {% endfor %}
+    </ul>
+    <h4 class="tag">
+        TACHES
+    </h4>
+    <ul>
+        {% for tache in taches %}
+            <li>
+                <a href="{% url "Tache" tache.id %}">
+                    <table>
+                        <tr>
+                           <td colspan="5" >
+                               <h2>
+                                   {{ tache.titre }}
+                               </h2>
+                           </td>
+                           <td rowspan="2" >
+                               <div class="stat">
+                                    <h4 class="size-stat" style="background-color:{{ tache.status.couleur }};" >{{ tache.status.nom }}</h4>
+                               </div>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="mini">
+                                <p>Priorité : {{ tache.priority }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Assigné à : {{ tache.assigned }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Commencée le : {{ tache.start }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Terminée le : {{ tache.end }}</p>
+                           </td>
+                           <td class="mini">
+                                <p>Projet : {{ tache.projet.nom }}</p>
+                           </td>
+                        </tr>
+                    </table>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h4 class="tag">
+        ADMINISTRATION
+    </h4>
+    <h5 class="tag">
+        Groupes
+    </h5>
+    <ul>
+        {% for group in groups %}
+            <li class="list">
+                <p class="list-cell">
+                    {{ group.name }}
+                </p>
+            </li>
+        {% endfor %}
+    </ul>
+    <h5 class="tag">
+        Permissions
+    </h5>
+
+    <ul>
+        {% for perm in permissions %}
+            <li class="list">
+                <p class="list-cell">
+                    {{ perm.name }}
+                </p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
