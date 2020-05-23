@@ -14,7 +14,8 @@ ul {
 }
 
 h3 {
-    width: 60%;
+    width: 90%;
+    margin: auto;
 }
 
 a {
@@ -25,4 +26,13 @@ a {
 a:hover {
   color: inherit;
   text-decoration: inherit;
+}
+
+.pin {
+    width: 18px;
+}
+
+.center {
+    margin: auto;
+    text-align: center;
 }

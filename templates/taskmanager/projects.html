@@ -14,7 +14,15 @@
                 <table class="projet">
                     <tr>
                         <td>
-                            <h3>{{ projet.0.nom }}</h3>
+                            <h3>
+                                {% if delete %}
+                                    <a href="{% url "Suppression Projet" projet.0.id %}"><img src="{% static "images/del.png" %}" alt="del" width = "18px"/></a>
+                                {% endif %}
+                                {% if modify %}
+                                    <a href="{% url "Modification Projet" projet.0.id %}"><img src="{% static "images/mod.png" %}" alt="mod" width = "18px"/></a>
+                                {% endif %}
+                                {{ projet.0.nom }}
+                            </h3>
                         </td>
                     </tr>
                     <tr>
@@ -27,4 +35,10 @@
         </a>
     {% endfor %}
     </ul>
+    {% if add %}
+        <div class="center">
+            <a href="{% url "Ajout Projet" %}"><img src="{% static "images/add.png" %}" alt="add" width = "18px"/></a>
+        </div>
+    {% endif %}
+
 {% endblock %}

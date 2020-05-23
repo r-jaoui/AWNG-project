@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block titre %}Modification de {{ proj.nom }}{% endblock %}
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/modify.css' %} ">{% endblock %}
+
+{% block contenu %}
+    <h3>Modification du projet {{ proj.nom }}</h3>
+    <div id="form-cont">
+        <form action="{% url "Modification Projet" proj.id %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input id="apply" type="submit" value="Modifier">
+        </form>
+        <a href="{% url "Projets" %}"><button id="retour">Retour</button></a>
+    </div>
+{% endblock %}

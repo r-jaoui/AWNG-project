@@ -56,6 +56,9 @@ def projets(request):
         name = request.user.first_name + " " + request.user.last_name
         username = request.user.username
         if request.user.has_perm('taskmanager.view_projet'):
+            modify = request.user.has_perm('taskmanager.modify_projet')
+            add = request.user.has_perm('taskmanager.add_projet')
+            delete = request.user.has_perm('taskmanager.delete_projet')
             projets_list = list(Projet.objects.all())
             for projet in projets_list:
                 projets_taches_nbre.append(0)
@@ -105,3 +108,72 @@ def tache(request, id):
     else:
         return redirect(connect)
     return render(request, 'taskmanager/tache.html', locals())
+
+def delete_projet(request, id):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    tache = None
+    commentaires = None
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.delete_projet'):
+            project = Projet.objects.get(id=id)
+            return render(request, "taskmanager/delete_project.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def delete_def_projet(request, id):
+    if request.user.is_authenticated:
+        if request.user.has_perm('taskmanager.delete_projet'):
+            Projet.objects.get(id=id).delete()
+            return redirect(projets)
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def modify_projet(request, id):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    tache = None
+    commentaires = None
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.modify_projet'):
+            proj = Projet.objects.get(id=id)
+            form = ModifyProjectForm(request.POST or None, instance=proj)
+            if form.is_valid():
+                proj.nom = form.cleaned_data['nom']
+                proj.save()
+                return redirect(projet, proj.id)
+            return render(request, "taskmanager/modify_project.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def add_projet(request):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    tache = None
+    commentaires = None
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.modify_projet'):
+            form = ModifyProjectForm(request.POST or None)
+            if form.is_valid():
+                proj = form.save()
+                return redirect(projet, proj.id)
+            return render(request, "taskmanager/add_project.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)

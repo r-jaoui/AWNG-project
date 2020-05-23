@@ -24,7 +24,7 @@
     </div>
     <div class="center bloc-85">
         {% if connected %}
-            <h4 class="regular"><span>{{ name }} ({{ username }})</span> connecté ! <a href="../disconnect"><button id="disconnect">Se déconnecter</button></a></h4>
+            <h4 class="regular"><span>{{ name }} ({{ username }})</span> connecté ! <a href="{% url "Deconnexion" %}"><button id="disconnect">Se déconnecter</button></a></h4>
         {% else %}
             <h4 class="regular">Non connecté...</h4>
         {% endif %}

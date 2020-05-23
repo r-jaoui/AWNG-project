@@ -1,0 +1,31 @@
+p {
+    text-align: center;
+    font-size: 130%;
+}
+
+input {
+    width: 100%;
+}
+
+#form-cont {
+    width: 70%;
+    margin: 40px auto;
+}
+
+#apply, #retour {
+    font-size: 150%;
+    text-decoration:none;
+    padding: 10px;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    color: black;
+    background-color: transparent;
+    border: solid 3px #396d79;
+    width: 200px;
+}
+
+#apply:hover, #retour:hover {
+    color: black;
+    background-color: #d0d8e7;
+}

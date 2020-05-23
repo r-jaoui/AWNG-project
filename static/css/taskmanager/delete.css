@@ -1,0 +1,36 @@
+#delete {
+    text-align: center;
+    color: #396d79;
+    font-size: 170%;
+    margin: 20px;
+}
+
+#sure {
+    text-align: center;
+    color: #396d79;
+    font-size: 140%;
+    margin: 20px;
+}
+
+#results {
+    width: 100px;
+    margin: auto;
+}
+
+.res {
+    width: 100%;
+    font-size: 150%;
+    text-decoration:none;
+    padding: 10px;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    color: black;
+    background-color: transparent;
+    border: solid 3px #396d79;
+}
+
+button:hover {
+    color: black;
+    background-color: #d0d8e7;
+}
