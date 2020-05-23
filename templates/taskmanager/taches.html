@@ -10,6 +10,14 @@
     <h3>
         Taches
     </h3>
+    <div class="bloc-40">
+        <form action = "{% url "Taches" %}" method="post">
+            {% csrf_token %}
+            {{ form.as_ul }}
+            <input class="filter" type="submit" value="Filtrer">
+        </form>
+        <a href="{% url "Taches" %}"><button class="filter">Annuler</button></a>
+    </div>
     <ul id="content">
         {% for tache in taches %}
             <li>

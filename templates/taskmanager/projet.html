@@ -14,6 +14,14 @@
         {{ projet.nom }}
     </h3>
     <h4 id="subtitle">Taches</h4>
+    <div class="bloc-40">
+        <form action = "{% url "Projet" projet.id %}" method="post">
+            {% csrf_token %}
+            {{ form.as_ul }}
+            <input class="filter" type="submit" value="Filtrer">
+        </form>
+        <a href="{% url "Projet" projet.id %}"><button class="filter">Annuler</button></a>
+    </div>
     <ul id="content">
         {% for tache in taches %}
             <li>

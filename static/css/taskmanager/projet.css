@@ -87,3 +87,15 @@ a:hover {
     margin: auto;
     text-align: center;
 }
+
+.filter {
+    font-size: 140%;
+    background-color: transparent;
+    border: solid 3px #396d79;
+    padding: 3px 15px;
+    margin: 10px;
+}
+
+.filter:hover {
+    background-color: #d0d8e7;
+}

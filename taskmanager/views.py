@@ -15,7 +15,7 @@ def connect(request):
     if connected:
         name = request.user.first_name + " " + request.user.last_name
         username = request.user.username
-        return redirect(projets)
+        return redirect(utilisateur)
     else:
         if form.is_valid():
             error = True
@@ -24,7 +24,7 @@ def connect(request):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
-                return redirect(projets)
+                return redirect(utilisateur)
             else:
                 pass
     return render(request, 'taskmanager/connect.html', locals())
@@ -89,7 +89,31 @@ def projet(request, id):
         delete_tache = request.user.has_perm('taskmanager.delete_tache')
         if request.user.has_perm('taskmanager.view_projet') and request.user.has_perm('taskmanager.view_tache'):
             projet = Projet.objects.get(id=id)
-            taches = Tache.objects.filter(projet = projet)
+            form = FilterTacheForm(request.POST or None, initial={'comm_select': 'avant', 'term_select': 'avant', 'sort_order': 'croiss'})
+            if form.is_valid():
+                taches = Tache.objects.filter(projet = projet)
+                if form.cleaned_data['assigned'] is not None:
+                    taches = taches.filter(assigned=form.cleaned_data['assigned'])
+                if form.cleaned_data['status'] is not None:
+                    taches = taches.filter(status=form.cleaned_data['status'])
+                if form.cleaned_data['comm_date'] is not None:
+                    if form.cleaned_data['comm_select'] == "avant":
+                        taches = taches.filter(start__lte=form.cleaned_data['comm_date'])
+                    else:
+                        taches = taches.filter(start__gte=form.cleaned_data['comm_date'])
+                if form.cleaned_data['term_date'] is not None:
+                    if form.cleaned_data['term_select'] == "avant":
+                        taches = taches.filter(end__lte=form.cleaned_data['term_date'])
+                    else:
+                        taches = taches.filter(end__gte=form.cleaned_data['term_date'])
+                if form.cleaned_data['sort_by'] != "":
+                    if form.cleaned_data['sort_order'] == "decroiss":
+                        taches = taches.order_by("-{}".format(form.cleaned_data['sort_by']))
+                    else:
+                        taches = taches.order_by("{}".format(form.cleaned_data['sort_by']))
+            else:
+                taches = Tache.objects.filter(projet = projet)
+            projet = Projet.objects.get(id=id)
         else:
             return redirect(denied)
     else:
@@ -130,13 +154,35 @@ def taches(request):
         if request.user.has_perm('taskmanager.view_tache'):
             modify_tache = request.user.has_perm('taskmanager.change_tache')
             delete_tache = request.user.has_perm('taskmanager.delete_tache')
-            taches = Tache.objects.all()
+            form = FilterTacheForm(request.POST or None, initial={'comm_select':'avant', 'term_select':'avant', 'sort_order':'croiss'})
+            if form.is_valid():
+                taches = Tache.objects.all()
+                if form.cleaned_data['assigned'] is not None:
+                    taches = taches.filter(assigned=form.cleaned_data['assigned'])
+                if form.cleaned_data['status'] is not None:
+                    taches = taches.filter(status=form.cleaned_data['status'])
+                if form.cleaned_data['comm_date'] is not None:
+                    if form.cleaned_data['comm_select'] == "avant":
+                        taches = taches.filter(start__lte=form.cleaned_data['comm_date'])
+                    else:
+                        taches = taches.filter(start__gte=form.cleaned_data['comm_date'])
+                if form.cleaned_data['term_date'] is not None:
+                    if form.cleaned_data['term_select'] == "avant":
+                        taches = taches.filter(end__lte=form.cleaned_data['term_date'])
+                    else:
+                        taches = taches.filter(end__gte=form.cleaned_data['term_date'])
+                if form.cleaned_data['sort_by'] != "":
+                    if form.cleaned_data['sort_order'] == "decroiss":
+                        taches = taches.order_by("-{}".format(form.cleaned_data['sort_by']))
+                    else:
+                        taches = taches.order_by("{}".format(form.cleaned_data['sort_by']))
+            else:
+                taches = Tache.objects.all()
             return render(request, "taskmanager/taches.html", locals())
         else:
             return redirect(denied)
     else:
         return redirect(connect)
-    return render(request, 'taskmanager/tache.html', locals())
 
 def utilisateur(request):
     connected = request.user.is_authenticated
