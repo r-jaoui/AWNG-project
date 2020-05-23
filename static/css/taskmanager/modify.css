@@ -1,6 +1,10 @@
 p {
-    text-align: center;
-    font-size: 130%;
+    text-align: left;
+    font-size: 100%;
+}
+
+textarea {
+    width: 100%;
 }
 
 input {
@@ -12,20 +16,26 @@ input {
     margin: 40px auto;
 }
 
-#apply, #retour {
+.link {
+    width: 100%;
+}
+
+.button-holder {
+    width: 200px;
+}
+
+.button {
     font-size: 150%;
-    text-decoration:none;
     padding: 10px;
-    margin: auto;
-    margin-top: 20px;
     text-align: center;
     color: black;
     background-color: transparent;
     border: solid 3px #396d79;
-    width: 200px;
+    margin: 10px auto;
+    width: 100%;
 }
 
-#apply:hover, #retour:hover {
+.button:hover {
     color: black;
     background-color: #d0d8e7;
 }

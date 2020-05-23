@@ -82,3 +82,8 @@ a:hover {
   color: inherit;
   text-decoration: inherit;
 }
+
+.center-pin {
+    margin: auto;
+    text-align: center;
+}

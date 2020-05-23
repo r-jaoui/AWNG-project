@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block titre %}Ajout d'une tache{% endblock %}
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/modify.css' %} ">{% endblock %}
+
+{% block contenu %}
+    <h3>Ajout d'une Tache à {{ proj.nom }}</h3>
+    <div id="form-cont">
+        <form action="{% url "Ajout Tache" proj.id%}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <p><label for="id_projet">Projet:</label> <select id="id_projet" disabled>
+                <option selected="">{{ proj.nom }}</option>
+            </select></p>
+            <div class="button-holder center"><input class="button" type="submit" value="Ajouter"></div>
+        </form>
+        <script>
+            document.getElementById("id_projet").setAttribute("disabled", "true");
+            document.getElementById("id_start").setAttribute("type", "date");
+            document.getElementById("id_end").setAttribute("type", "date");
+        </script>
+        <div class="button-holder center"><a href="{% url "Projet" proj.id %}" class="link"><button class="button">Retour</button></a></div>
+    </div>
+{% endblock %}

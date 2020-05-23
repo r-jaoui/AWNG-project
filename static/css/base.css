@@ -11,7 +11,7 @@
 }
 
 .regular {
-    font-family: 'Caladea';
+    font-family: 'Caladea', serif;
 }
 
 
@@ -22,7 +22,7 @@ h1 {
     padding-bottom: 15px;
     font-size: 600%;
     color: #396d79;
-    font-family: 'Forte';
+    font-family: 'Forte', serif;
 }
 
 h2 {
@@ -76,7 +76,7 @@ h5 {
     margin: 30px;
     font-size: 600%;
     color: #396d79;
-    font-family: 'Forte';
+    font-family: 'Forte', serif;
     text-align: left;
 }
 
@@ -92,7 +92,8 @@ h5 {
 }
 
 .center{
-    margin: auto
+    margin: auto;
+    text-align: center;
 }
 
 #full {

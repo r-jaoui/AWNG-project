@@ -30,10 +30,6 @@ h3 {
     margin: 20px auto;
 }
 
-td {
-    padding: 10px;
-}
-
 .mini{
     width: 25%;
 }
@@ -49,7 +45,6 @@ td {
 }
 
 ul {
-    margin:30px;
     padding:0px;
     list-style: none;
 }
@@ -90,4 +85,42 @@ ul {
 
 #comments table {
     border: solid 3px #396d79;
+}
+
+#text {
+    padding: 4px;
+    margin: auto;
+    color: black;
+    background-color: transparent;
+    border: solid 3px #396d79;
+    width: 100%;
+    height: 200px
+}
+
+.centered-cell {
+    width: 150px;
+    text-align: center;
+}
+
+#send-comm {
+    font-size: 120%;
+    text-decoration:none;
+    padding: 6px;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    color: black;
+    background-color: transparent;
+    border: solid 3px #396d79;
+    width: 100px;
+}
+
+#send-comm:hover {
+    color: black;
+    background-color: #d0d8e7;
+}
+
+#new-comment {
+    width: 75%;
+    margin: auto;
 }

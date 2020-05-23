@@ -7,7 +7,12 @@
 {% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/tache.css' %} ">{% endblock %}
 
 {% block contenu %}
-    <h3>{{ tache.titre }}</h3>
+    <h3>
+        {% if modify %}
+            <a href="{% url "Modification Tache" tache.id %}"><img src="{% static "images/mod.png" %}" alt="mod" width = "18px"/></a>
+        {% endif %}
+        {{ tache.titre }}
+    </h3>
     <table class="content">
         <tr>
             <td colspan="2">
@@ -39,24 +44,53 @@
             </td>
         </tr>
     </table>
-    <h4 id="subtitle">Commentaires</h4>
-    <ul id="comments">
-        {% for comm in commentaires %}
-            <li>
-                <table>
-                    <tr>
-                        <td>
-                            <p class="comm-header">par {{ comm.user }} le {{ comm.date }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="comm">{{ comm.texte }}</p>
-                        </td>
-                    </tr>
-                </table>
-            </li>
-        {% endfor %}
-    </ul>
+    {% if view_comments %}
+        <h4 id="subtitle">Commentaires</h4>
+        <ul id="comments">
+            {% for comm in commentaires %}
+                <li>
+                    <table>
+                        <tr>
+                            <td>
+                                <p class="comm-header">
+                                    {% if delete_comment %}
+                                        <a href="{% url "Suppression Commentaire" comm.id %}"><img src="{% static "images/del.png" %}" alt="del" width = "18px"/></a>
+                                    {% endif %}
+                                    {% if modify_comment %}
+                                        <a href="{% url "Modification Commentaire" comm.id %}"><img src="{% static "images/mod.png" %}" alt="mod" width = "18px"/></a>
+                                    {% endif %}
+                                    par {{ comm.user }} le {{ comm.date }}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="comm">{{ comm.texte }}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h4 id="subtitle">Commentaires non visibles</h4>
+    {% endif %}
+    {% if add_comment %}
+        <form action="{% url "Ajout Commentaire" tache.id %}" method="post">
+            {% csrf_token %}
+            <table id="new-comment">
+                <tr>
+                    <td>
+                        <textarea id="text" name="text"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="centered-cell">
+                        <input type="submit" value="Envoyer" id="send-comm">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    {% endif %}
     <a id="ret" href="{% url "Projet" tache.projet.id %}"><p>Retour</p></a>
 {% endblock %}

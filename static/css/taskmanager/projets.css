@@ -28,11 +28,7 @@ a:hover {
   text-decoration: inherit;
 }
 
-.pin {
-    width: 18px;
-}
-
-.center {
+.center-pin {
     margin: auto;
     text-align: center;
 }

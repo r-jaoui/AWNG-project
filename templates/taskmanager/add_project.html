@@ -12,8 +12,8 @@
         <form action="{% url "Ajout Projet" %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input id="apply" type="submit" value="Ajouter">
+            <div class="button-holder center"><input class="button" type="submit" value="Ajouter"></div>
         </form>
-        <a href="{% url "Projets" %}"><button id="retour">Retour</button></a>
+        <div class="button-holder center"><a href="{% url "Projets" %}" class="link"><button class="button">Retour</button></a></div>
     </div>
 {% endblock %}

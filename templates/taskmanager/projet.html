@@ -7,7 +7,12 @@
 {% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/projet.css' %} ">{% endblock %}
 
 {% block contenu %}
-    <h3>{{ projet.nom }}</h3>
+    <h3>
+        {% if modify_projet %}
+            <a href="{% url "Modification Projet" projet.id %}"><img src="{% static "images/mod.png" %}" alt="mod" width = "18px"/></a>
+        {% endif %}
+        {{ projet.nom }}
+    </h3>
     <h4 id="subtitle">Taches</h4>
     <ul id="content">
         {% for tache in taches %}
@@ -16,7 +21,15 @@
                     <table>
                         <tr>
                            <td colspan="4" >
-                               <h2>{{ tache.titre }}</h2>
+                               <h2>
+                                    {% if delete_tache %}
+                                        <a href="{% url "Suppression Tache" tache.id %}"><img src="{% static "images/del.png" %}" alt="del" width = "18px"/></a>
+                                    {% endif %}
+                                    {% if modify_tache %}
+                                        <a href="{% url "Modification Tache" tache.id %}"><img src="{% static "images/mod.png" %}" alt="mod" width = "18px"/></a>
+                                    {% endif %}
+                                   {{ tache.titre }}
+                               </h2>
                            </td>
                            <td rowspan="2" >
                                <div class="stat">
@@ -43,5 +56,10 @@
             </li>
         {% endfor %}
     </ul>
+    {% if add_tache %}
+        <div class="center-pin">
+            <a href="{% url "Ajout Tache" projet.id %}"><img src="{% static "images/add.png" %}" alt="add" width = "18px"/></a>
+        </div>
+    {% endif %}
     <a id="ret" href="{% url "Projets" %}"><p>Retour</p></a>
 {% endblock %}

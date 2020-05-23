@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
-{% block titre %}Modification de {{ proj.nom }}{% endblock %}
+{% block titre %}Modification de {{ task.titre }}{% endblock %}
 
 {% load static %}
 
 {% block css %}<link rel="stylesheet" href="{% static 'css/taskmanager/modify.css' %}">{% endblock %}
 
 {% block contenu %}
-    <h3>Modification du projet {{ proj.nom }}</h3>
+    <h3>Modification de la tache {{ task.titre }}</h3>
     <div id="form-cont">
-        <form action="{% url "Modification Projet" proj.id %}" method="post">
+        <form action="{% url "Modification Tache" task.id %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <div class="button-holder center"><input class="button" type="submit" value="Modifier"></div>
         </form>
-        <div class="button-holder center"><a href="{% url "Projet" proj.id %}" class="link"><button class="button">Retour</button></a></div>
+        <div class="button-holder center"><a href="{% url "Tache" task.id %}" class="link"><button class="button">Retour</button></a></div>
     </div>
 {% endblock %}

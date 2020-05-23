@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import permission_required, login_required
+from django.utils import timezone
 from .forms import *
 from .models import *
 
@@ -56,7 +56,7 @@ def projets(request):
         name = request.user.first_name + " " + request.user.last_name
         username = request.user.username
         if request.user.has_perm('taskmanager.view_projet'):
-            modify = request.user.has_perm('taskmanager.modify_projet')
+            modify = request.user.has_perm('taskmanager.change_projet')
             add = request.user.has_perm('taskmanager.add_projet')
             delete = request.user.has_perm('taskmanager.delete_projet')
             projets_list = list(Projet.objects.all())
@@ -82,6 +82,10 @@ def projet(request, id):
     if connected:
         name = request.user.first_name + " " + request.user.last_name
         username = request.user.username
+        modify_projet = request.user.has_perm('taskmanager.change_projet')
+        modify_tache = request.user.has_perm('taskmanager.change_tache')
+        add_tache = request.user.has_perm('taskmanager.add_tache')
+        delete_tache = request.user.has_perm('taskmanager.delete_tache')
         if request.user.has_perm('taskmanager.view_projet') and request.user.has_perm('taskmanager.view_tache'):
             projet = Projet.objects.get(id=id)
             taches = Tache.objects.filter(projet = projet)
@@ -100,7 +104,12 @@ def tache(request, id):
     if connected:
         name = request.user.first_name + " " + request.user.last_name
         username = request.user.username
-        if request.user.has_perm('taskmanager.view_commentaire') and request.user.has_perm('taskmanager.view_tache'):
+        if request.user.has_perm('taskmanager.view_tache'):
+            modify = request.user.has_perm('taskmanager.change_tache')
+            view_comments = request.user.has_perm('taskmanager.view_commentaire')
+            add_comment = request.user.has_perm('taskmanager.add_commentaire')
+            modify_comment = request.user.has_perm('taskmanager.change_commentaire')
+            delete_comment = request.user.has_perm('taskmanager.delete_commentaire')
             tache = Tache.objects.get(id=id)
             commentaires = Commentaire.objects.filter(tache = tache).order_by('date')
         else:
@@ -167,12 +176,160 @@ def add_projet(request):
     if connected:
         name = request.user.first_name + " " + request.user.last_name
         username = request.user.username
-        if request.user.has_perm('taskmanager.modify_projet'):
+        if request.user.has_perm('taskmanager.add_projet'):
             form = ModifyProjectForm(request.POST or None)
             if form.is_valid():
                 proj = form.save()
                 return redirect(projet, proj.id)
             return render(request, "taskmanager/add_project.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+
+def delete_tache(request, id):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    task = None
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.delete_tache'):
+            task = Tache.objects.get(id=id)
+            return render(request, "taskmanager/delete_tache.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def delete_def_tache(request, id):
+    if request.user.is_authenticated:
+        if request.user.has_perm('taskmanager.delete_tache'):
+            tache = Tache.objects.get(id=id)
+            proj = tache.projet
+            tache.delete()
+            return redirect(projet, proj.id)
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def modify_tache(request, id):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.change_tache'):
+            task = Tache.objects.get(id=id)
+            form = ModifyTacheForm(request.POST or None, instance=task)
+            if form.is_valid():
+                task = form.save()
+                return redirect(tache, id)
+            return render(request, "taskmanager/modify_tache.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def add_tache(request, id):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.add_tache'):
+            proj = Projet.objects.get(id=id)
+            form = NewTacheForm(request.POST or None)
+            if form.is_valid():
+                task = Tache()
+
+                task.titre = form.cleaned_data['titre']
+                task.description = form.cleaned_data['description']
+                task.start = form.cleaned_data['start']
+                task.end = form.cleaned_data['end']
+                task.priority = form.cleaned_data['priority']
+                task.assigned = form.cleaned_data['assigned']
+                task.status = form.cleaned_data['status']
+                task.projet = proj
+
+                task.save()
+                return redirect(tache, task.id)
+            return render(request, "taskmanager/add_tache.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def delete_comm(request, id):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.delete_commentaire'):
+            comm = Commentaire.objects.get(id=id)
+            return render(request, "taskmanager/delete_commentaire.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def delete_def_comm(request, id):
+    if request.user.is_authenticated:
+        if request.user.has_perm('taskmanager.delete_commentaire'):
+            comm = Commentaire.objects.get(id=id)
+            task = comm.tache
+            comm.delete()
+            return redirect(tache, task.id)
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+def modify_comm(request, id):
+    connected = request.user.is_authenticated
+    name = ""
+    username = ""
+    if connected:
+        name = request.user.first_name + " " + request.user.last_name
+        username = request.user.username
+        if request.user.has_perm('taskmanager.change_commentaire'):
+            comm = Commentaire.objects.get(id=id)
+            form = ModifyCommentaireForm(request.POST or None, initial={'texte': comm.texte, 'date': comm.date, 'tache': comm.tache, 'user': comm.user})
+            if form.is_valid():
+                comm.texte=form.cleaned_data['texte']
+                comm.date=form.cleaned_data['date']
+                comm.tache=form.cleaned_data['tache']
+                comm.user=form.cleaned_data['user']
+
+                comm.save()
+                return redirect(tache, comm.tache.id)
+            return render(request, "taskmanager/modify_commentaire.html", locals())
+        else:
+            return redirect(denied)
+    else:
+        return redirect(connect)
+
+
+def add_comm(request, id):
+    if request.user.is_authenticated:
+        if request.user.has_perm('taskmanager.add_commentaire'):
+            task = Tache.objects.get(id=id)
+            if request.POST['text']:
+                if len(request.POST['text']) > 0:
+                    comm = Commentaire()
+                    comm.texte = request.POST['text']
+                    comm.user = request.user
+                    comm.date = timezone.now()
+                    comm.tache = task
+                    comm.save()
+            return redirect(tache, task.id)
         else:
             return redirect(denied)
     else:
